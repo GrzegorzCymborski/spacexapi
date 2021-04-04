@@ -1,24 +1,19 @@
-import { Rocket, Ship, Launch, Dragon, Landpad } from './generated';
+import { Rocket, Launch, Dragon, Landpad } from './generated';
 
 // custom types
 
 export type Nil<T> = T | null | undefined;
 
-export type RocketsProps = {
+export type RequiredItemsProps = {
   rockets: Rocket[];
-};
-
-export type ShipsProps = {
-  ships: Ship[];
-};
-
-export type LaunchesProps = {
   launches: Launch[];
+  landpads?: Landpad[];
+  dragons?: Dragon[];
 };
 
-export type DragonProps = {
+export type OptionalDragonProps = {
   dragons: Dragon[];
 };
-export type LandpadsProps = {
+export type OptionalLandpadsProps = {
   landpads: Landpad[];
 };

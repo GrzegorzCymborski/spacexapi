@@ -1,30 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useQuery, useLazyQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
-import { Container, Card, Accordion, Col, Row, Button } from 'react-bootstrap';
-import { GET_ROCKETS, GET_LATEST_LAUNCHES, GET_LATEST_SHIPS, GET_DRAGONS, GET_LANDPADS } from './API/queries';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import React, { useState } from 'react';
+import { Container, Card, Accordion, Col, Row, ListGroup } from 'react-bootstrap';
+import { GET_DRAGONS, GET_LANDPADS, GET_REQUIRED } from './API/queries';
 import Group from './components/Group';
 import GroupItem from './components/GroupItem';
-import { DragonProps, LandpadsProps, LaunchesProps, RocketsProps, ShipsProps } from './types';
+import { OptionalDragonProps, OptionalLandpadsProps, RequiredItemsProps } from './types';
 
 const App: React.FC = () => {
-  const [currentGroup, setCurrentGroup] = useState<number>(0);
+  const [optionalVisible, setOptionalVisible] = useState(false);
+  const { data: dataRockets } = useQuery<RequiredItemsProps>(GET_REQUIRED);
 
-  const { data: dataRockets } = useQuery<RocketsProps>(GET_ROCKETS);
-  const { data: dataLatestLaunches } = useQuery<LaunchesProps>(GET_LATEST_LAUNCHES);
-  const { data: dataLatestShips } = useQuery<ShipsProps>(GET_LATEST_SHIPS);
+  const [getDataDragons, { data: dataDragons }] = useLazyQuery<OptionalDragonProps>(GET_DRAGONS);
+  const [getLandpads, { data: dataLandpads }] = useLazyQuery<OptionalLandpadsProps>(GET_LANDPADS);
 
-  const [getDragons, { data: dataDragons }] = useLazyQuery<DragonProps>(GET_DRAGONS);
-  const [getLandpads, { data: dataLandpads }] = useLazyQuery<LandpadsProps>(GET_LANDPADS);
-
-  const handleCustomGroup = (groupID: number): void => {
-    setCurrentGroup(groupID);
+  const handleOptionalItem = (e: React.SyntheticEvent): void => {
+    if (e.currentTarget.textContent === 'Dragons Ships') getDataDragons();
+    if (e.currentTarget.textContent === 'Landpads') getLandpads();
+    setOptionalVisible(true)
+    console.log('api call'); 
   };
-
-  useEffect(() => {
-    if (currentGroup === 2) getDragons();
-    if (currentGroup === 3) getLandpads();
-  }, [currentGroup]);
 
   return (
     <Container className="d-flex flex-column" fluid>
@@ -32,22 +27,37 @@ const App: React.FC = () => {
         <Card.Header>SpaceX GraphQL 🚀</Card.Header>
 
         {dataRockets && (
-          <Group title="Rockets">
-            {dataRockets.rockets.map(({ name, description, first_flight }, index) => (
+          <>
+            <Group title="Rockets">
+              {dataRockets.rockets.map(({ name, description, first_flight }, index) => (
+                <GroupItem key={index} title={name} year={first_flight} details={description} />
+              ))}
+            </Group>
+            <Group title="Latest launches">
+              {dataRockets.launches.map(({ mission_name, launch_year, details }, index) => (
+                <GroupItem key={index} title={mission_name} year={launch_year} details={details} />
+              ))}
+            </Group>
+          </>
+        )}
+
+        {dataDragons?.dragons && (
+          <Group title="Dragon Ships">
+            {dataDragons.dragons.map(({ name, first_flight, description }, index) => (
               <GroupItem key={index} title={name} year={first_flight} details={description} />
             ))}
           </Group>
         )}
 
-        {dataLatestLaunches && (
-          <Group title="Latest launches">
-            {dataLatestLaunches.launches.map(({ mission_name, launch_year, details }, index) => (
-              <GroupItem key={index} title={mission_name} year={launch_year} details={details} />
+        {dataLandpads?.landpads && (
+          <Group title="Landpads">
+            {dataLandpads.landpads.map(({ full_name, details, status }, index) => (
+              <GroupItem key={index} title={full_name} year={status} details={details} />
             ))}
           </Group>
         )}
 
-        <Accordion>
+        <Accordion hidden={optionalVisible}>
           <Row className="d-flex flex-column align-items-center my-3">
             <Col xs={10}>
               <Card>
@@ -56,39 +66,12 @@ const App: React.FC = () => {
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
-                    <Button className="mx-3" onClick={(): void => handleCustomGroup(1)}>
-                      Latest Ships
-                    </Button>
-                    <Button className="mx-3" onClick={(): void => handleCustomGroup(2)}>
-                      Dragons Ships
-                    </Button>
-                    <Button className="mx-3" onClick={(): void => handleCustomGroup(3)}>
-                      Landpads
-                    </Button>
+                    <ListGroup variant="flush" style={{ cursor: 'pointer' }}>
+                      <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Dragons Ships</ListGroup.Item>
+                      <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Landpads</ListGroup.Item>
+                    </ListGroup>
                   </Card.Body>
                 </Accordion.Collapse>
-                {currentGroup === 1 && dataLatestShips && (
-                  <Group title="Latest Ships" selectable={true}>
-                    {dataLatestShips.ships.map(({ name, year_built, type }, index) => (
-                      <GroupItem key={index} title={name} year={year_built} details={type} />
-                    ))}
-                  </Group>
-                )}
-                {currentGroup === 2 && dataDragons && (
-                  <Group title="Dragon Ships" selectable={true}>
-                    {dataDragons.dragons.map(({ name, first_flight, description }, index) => (
-                      <GroupItem key={index} title={name} year={first_flight} details={description} />
-                    ))}
-                  </Group>
-                )}
-
-                {currentGroup === 3 && dataLandpads && (
-                  <Group title="Landpads" selectable={true}>
-                    {dataLandpads.landpads.map(({ full_name, details, status }, index) => (
-                      <GroupItem key={index} title={full_name} year={status} details={details} />
-                    ))}
-                  </Group>
-                )}
               </Card>
             </Col>
           </Row>

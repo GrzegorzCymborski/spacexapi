@@ -1,17 +1,13 @@
 import { gql } from '@apollo/client';
 
-export const GET_ROCKETS = gql`
+//! Required
+export const GET_REQUIRED = gql`
   {
     rockets {
       name
       description
       first_flight
     }
-  }
-`;
-
-export const GET_LATEST_LAUNCHES = gql`
-  {
     launches(limit: 5, sort: "launch_year", order: "desc") {
       mission_name
       launch_year
@@ -20,16 +16,7 @@ export const GET_LATEST_LAUNCHES = gql`
   }
 `;
 
-export const GET_LATEST_SHIPS = gql`
-  {
-    ships(limit: 5, sort: "year_built", order: "desc") {
-      name
-      year_built
-      type
-    }
-  }
-`;
-
+//! Optional
 export const GET_DRAGONS = gql`
   {
     dragons {
