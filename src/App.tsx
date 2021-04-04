@@ -17,12 +17,21 @@ const App: React.FC = () => {
   const [getLandpads, { data: dataLandpads }] = useLazyQuery<OptionalLandpadsProps>(GET_LANDPADS);
 
   const handleOptionalItem = (e: React.SyntheticEvent): void => {
-    if (e.currentTarget.textContent === 'Dragons Ships') getDataDragons();
-    if (e.currentTarget.textContent === 'Landpads') getLandpads();
+    const textContent = e.currentTarget.textContent;
+
+    if (textContent === 'Dragons Ships') {
+      getDataDragons();
+    }
+    if (textContent === 'Landpads') {
+      getLandpads();
+    }
+
     setOptionalVisible(true);
+
+    //! faked API Call
     addToGroup({
       variables: {
-        topic: e.currentTarget.textContent
+        topic: textContent
       }
     });
   };
@@ -63,7 +72,7 @@ const App: React.FC = () => {
           </Group>
         )}
 
-        <OptionalItems fn={handleOptionalItem} hidden={optionalVisible} />
+        <OptionalItems handleOptionalItem={handleOptionalItem} hidden={optionalVisible} />
       </Card>
     </Container>
   );

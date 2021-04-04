@@ -5,15 +5,15 @@ import { Rocket, Launch, Dragon, Landpad } from './generated';
 export type Nil<T> = T | null | undefined;
 
 export type RequiredItemsProps = {
-  rockets: Rocket[];
-  launches: Launch[];
-  landpads?: Landpad[];
-  dragons?: Dragon[];
+  readonly rockets: readonly Rocket[];
+  readonly launches: readonly Launch[];
+  readonly landpads?: readonly Landpad[];
+  readonly dragons?: readonly Dragon[];
 };
 
 export type OptionalDragonProps = {
-  dragons: Dragon[];
+  readonly dragons: readonly Dragon[];
 };
 export type OptionalLandpadsProps = {
-  landpads: Landpad[];
+  readonly landpads: readonly Landpad[];
 };

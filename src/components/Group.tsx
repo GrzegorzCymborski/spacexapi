@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col, Card, ListGroup } from 'react-bootstrap';
 
 type Props = {
-  title: string;
-  children: React.ReactChild | React.ReactChild[];
+  readonly title: string;
+  readonly children: React.ReactChild | readonly React.ReactChild[];
 };
 
 const Group: React.FC<Props> = ({ title, children }) => {

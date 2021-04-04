@@ -2,11 +2,11 @@ import React from 'react';
 import { Row, Col, Card, ListGroup, Accordion } from 'react-bootstrap';
 
 type Props = {
-  fn: (e: React.SyntheticEvent) => void;
-  hidden: boolean;
+  readonly handleOptionalItem: (e: React.SyntheticEvent) => void;
+  readonly hidden: boolean;
 };
 
-const OptionalItems: React.FC<Props> = ({ hidden, fn }) => {
+const OptionalItems: React.FC<Props> = ({ hidden, handleOptionalItem }) => {
   return (
     <Accordion hidden={hidden}>
       <Row className="d-flex flex-column align-items-center my-3">
@@ -18,8 +18,8 @@ const OptionalItems: React.FC<Props> = ({ hidden, fn }) => {
             <Accordion.Collapse eventKey="0">
               <Card.Body>
                 <ListGroup variant="flush" style={{ cursor: 'pointer' }}>
-                  <ListGroup.Item onClick={(e): void => fn(e)}>Dragons Ships</ListGroup.Item>
-                  <ListGroup.Item onClick={(e): void => fn(e)}>Landpads</ListGroup.Item>
+                  <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Dragons Ships</ListGroup.Item>
+                  <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Landpads</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Accordion.Collapse>

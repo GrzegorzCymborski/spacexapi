@@ -3,9 +3,9 @@ import { Card, ListGroup } from 'react-bootstrap';
 import { Nil } from '../types';
 
 type GroupItemProps = {
-  title: Nil<string>;
-  year: Nil<string | number>;
-  details: Nil<string>;
+  readonly title: Nil<string>;
+  readonly year: Nil<string | number>;
+  readonly details: Nil<string>;
 };
 
 const GroupItem: React.FC<GroupItemProps> = ({ title, year, details }) => {
