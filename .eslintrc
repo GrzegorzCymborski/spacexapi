@@ -29,9 +29,10 @@
     "@typescript-eslint/member-delimiter-style": 1,
     "@typescript-eslint/no-var-requires": 1,
     "@typescript-eslint/no-use-before-define": 1,
-    "@typescript-eslint/explicit-function-return-type": 1,
+    "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-explicit-any": 1,
     "@typescript-eslint/no-non-null-assertion": 1,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
     "functional/prefer-readonly-type": 1,
     "no-undef": 1,
     "import/order": [

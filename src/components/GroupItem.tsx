@@ -8,7 +8,7 @@ type GroupItemProps = {
   readonly details: Nil<string>;
 };
 
-const GroupItem: React.FC<GroupItemProps> = ({ title, year, details }) => {
+const GroupItem = ({ title, year, details }: GroupItemProps) => {
   return (
     <ListGroup.Item>
       <Card.Body>

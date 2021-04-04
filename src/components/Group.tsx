@@ -6,7 +6,7 @@ type Props = {
   readonly children: React.ReactChild | readonly React.ReactChild[];
 };
 
-const Group: React.FC<Props> = ({ title, children }) => {
+const Group = ({ title, children }: Props) => {
   return (
     <Row className="d-flex flex-column align-items-center my-3">
       <Col xs={10}>

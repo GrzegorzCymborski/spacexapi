@@ -6,7 +6,7 @@ type Props = {
   readonly hidden: boolean;
 };
 
-const OptionalItems: React.FC<Props> = ({ hidden, handleOptionalItem }) => {
+const OptionalItems = ({ hidden, handleOptionalItem }: Props) => {
   return (
     <Accordion hidden={hidden}>
       <Row className="d-flex flex-column align-items-center my-3">
@@ -18,8 +18,8 @@ const OptionalItems: React.FC<Props> = ({ hidden, handleOptionalItem }) => {
             <Accordion.Collapse eventKey="0">
               <Card.Body>
                 <ListGroup variant="flush" style={{ cursor: 'pointer' }}>
-                  <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Dragons Ships</ListGroup.Item>
-                  <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Landpads</ListGroup.Item>
+                  <ListGroup.Item onClick={(e) => handleOptionalItem(e)}>Dragons Ships</ListGroup.Item>
+                  <ListGroup.Item onClick={(e) => handleOptionalItem(e)}>Landpads</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Accordion.Collapse>
