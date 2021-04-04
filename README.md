@@ -4,6 +4,8 @@ when clicking on the optional group and selecting an item, it will be displayed 
 
 2b) saving the user selection, I wasn't quite sure how the feature should work so I created a fake mutation call to the api, in the handleOptionalItem function
 
+ [DEMO](https://spacexapi.surge.sh/) / [Online VSC](https://github1s.com/GrzegorzCymborski/spacexapi)
+
 
 ## Tech Stack
 React / TypeScript / GraphQL / Apollo / Vite / Bootstrap / Eslint / Prettier / ❤
