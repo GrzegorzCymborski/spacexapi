@@ -1,26 +1,27 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Container, Card } from 'react-bootstrap';
-import { ADD_TO_REQUIRED, GET_DRAGONS, GET_LANDPADS, GET_REQUIRED } from './API/queries';
+import { ADD_TO_REQUIRED_GROUPS } from './API/queries';
 import Group from './components/Group';
 import GroupItem from './components/GroupItem';
 import OptionalItems from './components/OptionalItems';
-import { OptionalDragonProps, OptionalLandpadsProps, RequiredItemsProps } from './types';
+import useDragons from './hooks/useDragons';
+import useLandpads from './hooks/useLandpads';
+import useRockets from './hooks/useRockets';
 
-const App: React.FC = () => {
+const App = () => {
   const [optionalVisible, setOptionalVisible] = useState(false);
-  const { data: dataRockets } = useQuery<RequiredItemsProps>(GET_REQUIRED);
-  const [addToGroup] = useMutation(ADD_TO_REQUIRED);
 
-  const [getDataDragons, { data: dataDragons }] = useLazyQuery<OptionalDragonProps>(GET_DRAGONS);
-  const [getLandpads, { data: dataLandpads }] = useLazyQuery<OptionalLandpadsProps>(GET_LANDPADS);
+  const [addToGroup] = useMutation(ADD_TO_REQUIRED_GROUPS);
+  const { rockets, launches } = useRockets();
+  const { dragons, getDragons } = useDragons();
+  const { getLandpads, landpads } = useLandpads();
 
-  const handleOptionalItem = (e: React.SyntheticEvent): void => {
+  const handleOptionalItem = (e: React.SyntheticEvent) => {
     const textContent = e.currentTarget.textContent;
 
     if (textContent === 'Dragons Ships') {
-      getDataDragons();
+      getDragons();
     }
     if (textContent === 'Landpads') {
       getLandpads();
@@ -41,32 +42,32 @@ const App: React.FC = () => {
       <Card className="my-3" style={{ height: '100% ' }}>
         <Card.Header>SpaceX GraphQL 🚀</Card.Header>
 
-        {dataRockets && (
+        {rockets && launches && (
           <>
             <Group title="Rockets">
-              {dataRockets.rockets.map(({ name, description, first_flight }, index) => (
+              {rockets.map(({ name, description, first_flight }, index) => (
                 <GroupItem key={index} title={name} year={first_flight} details={description} />
               ))}
             </Group>
             <Group title="Latest launches">
-              {dataRockets.launches.map(({ mission_name, launch_year, details }, index) => (
+              {launches.map(({ mission_name, launch_year, details }, index) => (
                 <GroupItem key={index} title={mission_name} year={launch_year} details={details} />
               ))}
             </Group>
           </>
         )}
 
-        {dataDragons?.dragons && (
+        {dragons && (
           <Group title="Dragon Ships">
-            {dataDragons.dragons.map(({ name, first_flight, description }, index) => (
+            {dragons.map(({ name, first_flight, description }, index) => (
               <GroupItem key={index} title={name} year={first_flight} details={description} />
             ))}
           </Group>
         )}
 
-        {dataLandpads?.landpads && (
+        {landpads && (
           <Group title="Landpads">
-            {dataLandpads.landpads.map(({ full_name, details, status }, index) => (
+            {landpads.map(({ full_name, details, status }, index) => (
               <GroupItem key={index} title={full_name} year={status} details={details} />
             ))}
           </Group>

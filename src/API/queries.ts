@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 //! Required groups
-export const GET_REQUIRED = gql`
+export const GET_REQUIRED_GROUPS = gql`
   {
     rockets {
       name
@@ -17,7 +17,7 @@ export const GET_REQUIRED = gql`
 `;
 
 //! Add to group
-export const ADD_TO_REQUIRED = gql`
+export const ADD_TO_REQUIRED_GROUPS = gql`
 mutation AddToGroup($name: String!) {
   addToGroup(topic: $name) {
     topic
