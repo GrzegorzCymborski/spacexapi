@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col, Card, ListGroup, Accordion } from 'react-bootstrap';
 
-type Props = {
+type OptionalItemsProps = {
   readonly handleOptionalItem: (e: React.SyntheticEvent) => void;
   readonly hidden: boolean;
 };
 
-const OptionalItems = ({ hidden, handleOptionalItem }: Props) => {
+const OptionalItems = ({ hidden, handleOptionalItem }: OptionalItemsProps) => {
   return (
     <Accordion hidden={hidden}>
       <Row className="d-flex flex-column align-items-center my-3">

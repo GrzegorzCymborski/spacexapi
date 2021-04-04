@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col, Card, ListGroup } from 'react-bootstrap';
 
-type Props = {
+type GroupProps = {
   readonly title: string;
   readonly children: React.ReactChild | readonly React.ReactChild[];
 };
 
-const Group = ({ title, children }: Props) => {
+const Group = ({ title, children }: GroupProps) => {
   return (
     <Row className="d-flex flex-column align-items-center my-3">
       <Col xs={10}>
