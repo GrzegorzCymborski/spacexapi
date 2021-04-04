@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-//! Required
+//! Required groups
 export const GET_REQUIRED = gql`
   {
     rockets {
@@ -16,7 +16,16 @@ export const GET_REQUIRED = gql`
   }
 `;
 
-//! Optional
+//! Add to group
+export const ADD_TO_REQUIRED = gql`
+mutation AddToGroup($name: String!) {
+  addToGroup(topic: $name) {
+    topic
+  }
+}
+`;
+
+//! Optional groups
 export const GET_DRAGONS = gql`
   {
     dragons {
@@ -26,7 +35,6 @@ export const GET_DRAGONS = gql`
     }
   }
 `;
-
 export const GET_LANDPADS = gql`
   {
     landpads {

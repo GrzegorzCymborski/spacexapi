@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
-import { Container, Card, Accordion, Col, Row, ListGroup } from 'react-bootstrap';
-import { GET_DRAGONS, GET_LANDPADS, GET_REQUIRED } from './API/queries';
+import { Container, Card } from 'react-bootstrap';
+import { ADD_TO_REQUIRED, GET_DRAGONS, GET_LANDPADS, GET_REQUIRED } from './API/queries';
 import Group from './components/Group';
 import GroupItem from './components/GroupItem';
+import OptionalItems from './components/OptionalItems';
 import { OptionalDragonProps, OptionalLandpadsProps, RequiredItemsProps } from './types';
 
 const App: React.FC = () => {
   const [optionalVisible, setOptionalVisible] = useState(false);
   const { data: dataRockets } = useQuery<RequiredItemsProps>(GET_REQUIRED);
+  const [addToGroup] = useMutation(ADD_TO_REQUIRED);
 
   const [getDataDragons, { data: dataDragons }] = useLazyQuery<OptionalDragonProps>(GET_DRAGONS);
   const [getLandpads, { data: dataLandpads }] = useLazyQuery<OptionalLandpadsProps>(GET_LANDPADS);
@@ -17,8 +19,12 @@ const App: React.FC = () => {
   const handleOptionalItem = (e: React.SyntheticEvent): void => {
     if (e.currentTarget.textContent === 'Dragons Ships') getDataDragons();
     if (e.currentTarget.textContent === 'Landpads') getLandpads();
-    setOptionalVisible(true)
-    console.log('api call'); 
+    setOptionalVisible(true);
+    addToGroup({
+      variables: {
+        topic: e.currentTarget.textContent
+      }
+    });
   };
 
   return (
@@ -57,25 +63,7 @@ const App: React.FC = () => {
           </Group>
         )}
 
-        <Accordion hidden={optionalVisible}>
-          <Row className="d-flex flex-column align-items-center my-3">
-            <Col xs={10}>
-              <Card>
-                <Accordion.Toggle as={Card.Header} eventKey="0" style={{ cursor: 'pointer' }}>
-                  Optional Items
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
-                  <Card.Body>
-                    <ListGroup variant="flush" style={{ cursor: 'pointer' }}>
-                      <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Dragons Ships</ListGroup.Item>
-                      <ListGroup.Item onClick={(e): void => handleOptionalItem(e)}>Landpads</ListGroup.Item>
-                    </ListGroup>
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
-            </Col>
-          </Row>
-        </Accordion>
+        <OptionalItems fn={handleOptionalItem} hidden={optionalVisible} />
       </Card>
     </Container>
   );
