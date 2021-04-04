@@ -1,8 +1,8 @@
+import { ApolloProvider } from '@apollo/client';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { ApolloProvider } from '@apollo/client';
 import { client } from './API/apollo-client';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>

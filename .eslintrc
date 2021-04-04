@@ -10,7 +10,9 @@
     ],
     "extends": [
       "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/errors",
+      "plugin:import/typescript"
     ],
     "rules": {
       "no-console": 1,
@@ -28,7 +30,15 @@
       "@typescript-eslint/explicit-function-return-type": 1,
       "@typescript-eslint/no-explicit-any": 1,
       "@typescript-eslint/no-non-null-assertion": 1,
-      "no-undef": 1
+      "no-undef": 1,
+      "import/order": [
+        "error",
+        {
+          "alphabetize": {
+            "order": "asc"
+          }
+        }
+      ]
     },
     "settings": {
       "react": {
