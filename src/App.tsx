@@ -1,13 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Container, Card, Row, ListGroup, Col } from 'react-bootstrap';
-
-type RocketTypes = {
-  active: boolean;
-  id: string;
-  type: string;
-  __typename: string;
-};
+import { Rocket } from '../types/generated';
 
 const GET_ROCKETS = gql`
   {
@@ -37,7 +31,7 @@ const App: React.FC = () => {
             <Card>
               <Card.Header>SpaceX Rockets</Card.Header>
               <ListGroup variant="flush">
-                {data?.rockets.map(({ id }: RocketTypes) => (
+                {data?.rockets.map(({ id }: Rocket) => (
                   <ListGroup.Item key={id}>{id}</ListGroup.Item>
                 ))}
               </ListGroup>
